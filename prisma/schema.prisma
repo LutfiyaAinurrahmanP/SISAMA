@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Mahasiswa {
+  id       Int       @id @default(autoincrement())
+  nim      String    @unique @db.VarChar(64)
+  nama     String    @db.VarChar(64)
+  prodi    String    @db.VarChar(64)
+  angkatan String    @db.VarChar(64)
+  email    String    @db.VarChar(64)
+  absensi  Absensi[]
+
+  @@map("mahasiswa")
+}
+
+model Dosen {
+  id          Int            @id @default(autoincrement())
+  nip         String         @unique @db.VarChar(64)
+  nama        String         @db.VarChar(64)
+  email       String         @db.VarChar(64)
+  jabatan     String         @db.VarChar(64)
+  jadwaldosen JadwalKuliah[]
+
+  @@map("dosen")
+}
+
+model MataKuliah {
+  id           Int            @id @default(autoincrement())
+  kode_mk      String         @unique @db.VarChar(64)
+  nama_mk      String         @unique @db.VarChar(64)
+  sks          Int
+  jadwalmatkul JadwalKuliah[]
+
+  @@map("mata_kuliah")
+}
+
+model JadwalKuliah {
+  id             Int        @id @default(autoincrement())
+  mata_kuliah_id Int
+  dosen_id       Int
+  hari           String     @db.VarChar(64)
+  jam_mulai      String     @db.VarChar(64)
+  jam_selesai    String     @db.VarChar(64)
+  ruangan        String     @db.VarChar(64)
+  jadwalmatkul   MataKuliah @relation(fields: [mata_kuliah_id], references: [id])
+  jadwaldosen    Dosen      @relation(fields: [dosen_id], references: [id])
+  absensi        Absensi[]
+
+  @@map("jadwal_kuliah")
+}
+
+model Absensi {
+  id               Int          @id @default(autoincrement())
+  jadwal_id        Int
+  mahasiswa_id     Int
+  tanggal          DateTime
+  status           String       @db.VarChar(64)
+  absensijadwal    JadwalKuliah @relation(fields: [jadwal_id], references: [id])
+  absensimahasiswa Mahasiswa    @relation(fields: [mahasiswa_id], references: [id])
+
+  @@map("absensi")
+}
