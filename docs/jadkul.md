@@ -6,7 +6,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : POST /api/mahasiswa/jadkul
+Endpoint : POST /api/admin/jadkul
 
 Request Body :
 
@@ -50,7 +50,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : GET /api/mahasiswa/jadkul/:jadkulId
+Endpoint : GET /api/admin/jadkul/:jadkulId
 
 Response Body Success :
 
@@ -82,7 +82,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : GET /api/mahasiswa/jadkul
+Endpoint : GET /api/admin/jadkul
 
 Response Body Success :
 
@@ -125,7 +125,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : PATCH /api/mahasiswa/jadkul/:jadkulId
+Endpoint : PATCH /api/admin/jadkul/:jadkulId
 
 Request Body :
 
@@ -177,7 +177,7 @@ Query Params :
 - jam_mulai : Search with kode jam_mulai
 - ruangan : Search with kode ruangan
 
-Endpoint : GET /api/mahasiswa/jadkul
+Endpoint : GET /api/admin/jadkul
 
 Response Body Success :
 
@@ -217,7 +217,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : DELETE /api/mahasiswa/jadkul/:jadkulId
+Endpoint : DELETE /api/admin/jadkul/:jadkulId
 
 Response Body Success :
 

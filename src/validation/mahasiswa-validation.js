@@ -9,6 +9,16 @@ const registerMahasiswaValidation = Joi.object({
     email: Joi.string().max(64).email().required()
 });
 
+const loginMahasiswaValidation = Joi.object({
+    nim: Joi.string().max(64).required(),
+    password: Joi.string().max(64).required()
+})
+
+const getMahasiswaValidation = Joi.string().max(100).required();
+
+
 export {
-    registerMahasiswaValidation
+    registerMahasiswaValidation,
+    loginMahasiswaValidation,
+    getMahasiswaValidation
 }
