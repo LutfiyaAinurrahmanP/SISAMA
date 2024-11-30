@@ -13,9 +13,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Admin {
+  id       Int    @id
+  username String @unique @db.VarChar(64)
+  password String @db.VarChar(64)
+
+  @@map("admin")
+}
+
 model Mahasiswa {
   id       Int       @id @default(autoincrement())
   nim      String    @unique @db.VarChar(64)
+  password String    @db.VarChar(64)
   nama     String    @db.VarChar(64)
   prodi    String    @db.VarChar(64)
   angkatan String    @db.VarChar(64)
@@ -28,6 +37,7 @@ model Mahasiswa {
 model Dosen {
   id          Int            @id @default(autoincrement())
   nip         String         @unique @db.VarChar(64)
+  password    String         @db.VarChar(64)
   nama        String         @db.VarChar(64)
   email       String         @db.VarChar(64)
   jabatan     String         @db.VarChar(64)
