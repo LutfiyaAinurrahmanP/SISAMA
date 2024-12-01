@@ -21,9 +21,19 @@ const createMahasiswa = async () => {
             token: "test"
         }
     })
+};
+
+const getMahasiswaId = async () => {
+    const mahasiswa = await prismaClient.mahasiswa.findFirst({
+        select: {
+            id: true
+        }
+    });
+    return mahasiswa?.id;
 }
 
 export {
     removeMahasiswa,
     createMahasiswa,
+    getMahasiswaId
 }

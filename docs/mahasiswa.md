@@ -179,7 +179,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : DELETE /api/mahasiswa/logout
+Endpoint : DELETE /api/mahasiswa/logout/:mahasiswaId
 
 Response Body Success :
 

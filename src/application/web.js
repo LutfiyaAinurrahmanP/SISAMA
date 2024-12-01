@@ -1,12 +1,13 @@
 import express from 'express';
 import { publicRouter } from '../routes/public-api.js';
-import { tokenRouter } from '../routes/token-api.js';
+import { dosenRouter, mahasiswaRouter } from '../routes/token-api.js';
 import { errorMiddleware } from '../middleware/error-middleware.js';
 
 export const web = express();
 web.use(express.json());
 
 web.use(publicRouter);
-web.use(tokenRouter);
+web.use(mahasiswaRouter);
+web.use(dosenRouter);
 
 web.use(errorMiddleware);
