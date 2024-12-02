@@ -37,7 +37,7 @@ const login = async (req, res, next) => {
 
 const update = async (req, res, next) => {
     try {
-        const dosenId = req.params.dosenId
+        const dosenId = req.params.dosenId;
         const request = req.body;
         request.id = dosenId;
         const result = await dosenService.update(request);
@@ -49,9 +49,24 @@ const update = async (req, res, next) => {
     }
 }
 
+const remove = async (req, res, next) => {
+    try {
+        const dosenId = req.params.dosenId;
+        const request = req.body;
+        request.id = dosenId;
+        await dosenService.remove(request);
+        res.status(200).json({
+            data: "Successful deleted data"
+        })
+    } catch (e) {
+        next(e);
+    }
+}
+
 export default {
     register,
     get,
     login,
-    update
+    update,
+    remove
 }

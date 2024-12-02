@@ -24,9 +24,19 @@ const updateDosenValidation = Joi.object({
     jabatan: Joi.string().max(64).required(),
 });
 
+const removeDosenValidation = Joi.object({
+    id: Joi.number().positive().required()
+});
+
+const logoutDosenValidation = Joi.object({
+    id: Joi.number().positive().required()
+});
+
 export {
     registerDosenValidation,
     loginDosenValidation,
     getDosenValidation,
-    updateDosenValidation
+    updateDosenValidation,
+    removeDosenValidation,
+    logoutDosenValidation
 }

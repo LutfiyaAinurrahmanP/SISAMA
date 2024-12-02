@@ -19,6 +19,7 @@ mahasiswaRouter.delete('/logout/:mahasiswaId', mahasiswaController.logout);
 dosenRouter.use(authDosen);
 dosenRouter.get('/current', dosenController.get);
 dosenRouter.patch('/:dosenId', dosenController.update);
+dosenRouter.delete('/:dosenId', dosenController.remove);
 
 export {
     mahasiswaRouter,

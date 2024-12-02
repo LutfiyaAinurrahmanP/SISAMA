@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import { getDosenValidation, loginDosenValidation, registerDosenValidation, updateDosenValidation } from "../validation/dosen-validation.js"
+import { getDosenValidation, loginDosenValidation, registerDosenValidation, removeDosenValidation, updateDosenValidation } from "../validation/dosen-validation.js"
 import { validate } from "../validation/validation.js"
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
@@ -87,7 +87,7 @@ const login = async (request) => {
     });
 };
 
-const update = async (request)=>{
+const update = async (request) => {
     const updateRequest = validate(updateDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
@@ -95,7 +95,7 @@ const update = async (request)=>{
         }
     });
 
-    if(!dosen){
+    if (!dosen) {
         throw new ResponseError(404, "Dosen is not found")
     }
 
@@ -120,9 +120,29 @@ const update = async (request)=>{
     })
 }
 
+const remove = async (request) => {
+    const removeRequest = validate(removeDosenValidation, request);
+    const dosen = await prismaClient.dosen.findUnique({
+        where: {
+            id: removeRequest.id
+        }
+    });
+
+    if (!dosen) {
+        throw new ResponseError(404, "Dosen data is not found");
+    };
+
+    return prismaClient.dosen.delete({
+        where: {
+            id: removeRequest.id
+        }
+    })
+}
+
 export default {
     register,
     get,
     login,
-    update
+    update,
+    remove
 }

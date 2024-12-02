@@ -98,3 +98,19 @@ describe('PATCH /api/dosen/:dosenId', () => {
         expect(result.status).toBe(200);
     });
 });
+
+describe('DELETE /api/dosen/:dosenId', () => {
+    beforeEach(async () => {
+        await createDosen();
+    });
+    afterEach(async () => {
+        await removeDosen();
+    });
+    test('should can deleted data', async () => {
+        const dosenId = await getdosenId();
+        const result = await supertest(web)
+            .delete(`/api/dosen/${dosenId}`)
+            .set("dosenAuth", "test");
+        expect(result.status).toBe(200);
+    });
+});
