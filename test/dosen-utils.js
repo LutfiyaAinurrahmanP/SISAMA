@@ -22,7 +22,17 @@ const removeDosen = async () => {
     })
 };
 
+const getdosenId = async () => {
+    const dosen = await prismaClient.dosen.findFirst({
+        select: {
+            id: true
+        }
+    });
+    return dosen?.id;
+}
+
 export {
     removeDosen,
     createDosen,
+    getdosenId
 }

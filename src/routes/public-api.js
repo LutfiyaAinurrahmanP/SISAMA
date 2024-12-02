@@ -10,6 +10,7 @@ publicRouter.post('/api/mahasiswa/login', mahasiswaController.login);
 
 // Dosen Router
 publicRouter.post('/api/dosen', dosenController.register);
+publicRouter.post('/api/dosen/login', dosenController.login);
 
 
 export {

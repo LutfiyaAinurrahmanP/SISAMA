@@ -7,7 +7,8 @@ export const web = express();
 web.use(express.json());
 
 web.use(publicRouter);
-web.use(mahasiswaRouter);
-web.use(dosenRouter);
+web.use('/api/mahasiswa', mahasiswaRouter);
+web.use('/api/dosen', dosenRouter);
+
 
 web.use(errorMiddleware);

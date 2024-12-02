@@ -8,16 +8,17 @@ import { authMahasiswa } from '../middleware/auth-mahasiswa.js';
 const mahasiswaRouter = new express.Router();
 const dosenRouter = new express.Router();
 
-// Rute Mahasiswa
+// Route Mahasiswa
 mahasiswaRouter.use(authMahasiswa);
-mahasiswaRouter.get('/api/mahasiswa/current', mahasiswaController.get);
-mahasiswaRouter.patch('/api/mahasiswa/:mahasiswaId', mahasiswaController.update);
-mahasiswaRouter.delete('/api/mahasiswa/:mahasiswaId', mahasiswaController.remove);
-mahasiswaRouter.delete('/api/mahasiswa/logout/:mahasiswaId', mahasiswaController.logout);
+mahasiswaRouter.get('/current', mahasiswaController.get);
+mahasiswaRouter.patch('/:mahasiswaId', mahasiswaController.update);
+mahasiswaRouter.delete('/:mahasiswaId', mahasiswaController.remove);
+mahasiswaRouter.delete('/logout/:mahasiswaId', mahasiswaController.logout);
 
-// Rute Dosen
+// Route Dosen
 dosenRouter.use(authDosen);
-dosenRouter.get('/api/dosen/current', dosenController.get);
+dosenRouter.get('/current', dosenController.get);
+dosenRouter.patch('/:dosenId', dosenController.update);
 
 export {
     mahasiswaRouter,
