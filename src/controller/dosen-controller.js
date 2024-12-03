@@ -61,6 +61,20 @@ const remove = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
+};
+
+const logout = async (req, res, next) => {
+    try {
+        const dosenId = req.params.dosenId;
+        const request = req.body;
+        request.id = dosenId;
+        await dosenService.remove(request);
+        res.status(200).json({
+            data: "Successful logout"
+        })
+    } catch (e) {
+        next(e);
+    }
 }
 
 export default {
@@ -68,5 +82,6 @@ export default {
     get,
     login,
     update,
-    remove
+    remove,
+    logout
 }

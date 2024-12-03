@@ -14,9 +14,10 @@ datasource db {
 }
 
 model Admin {
-  id       Int     @id
+  id       Int     @id @default(autoincrement())
   username String  @unique @db.VarChar(64)
   password String  @db.VarChar(64)
+  nama     String  @db.VarChar(64)
   token    String? @db.VarChar(64)
 
   @@map("admin")

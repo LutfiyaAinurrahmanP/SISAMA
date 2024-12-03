@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import { getDosenValidation, loginDosenValidation, registerDosenValidation, removeDosenValidation, updateDosenValidation } from "../validation/dosen-validation.js"
+import { getDosenValidation, loginDosenValidation, logoutDosenValidation, registerDosenValidation, removeDosenValidation, updateDosenValidation } from "../validation/dosen-validation.js"
 import { validate } from "../validation/validation.js"
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
@@ -139,10 +139,37 @@ const remove = async (request) => {
     })
 }
 
+const logout = async (request) => {
+    const requestLogout = validate(logoutDosenValidation, request);
+
+    const dosen = await prismaClient.dosen.findUnique({
+        where: {
+            id: requestLogout.id
+        }
+    });
+
+    if(!dosen){
+        throw new ResponseError(404, "Dosen data is not found");
+    };
+
+    return prismaClient.dosen.update({
+        where: {
+            id: requestLogout.id
+        },
+        data: {
+            token: null
+        },
+        select: {
+            id: true
+        }
+    })
+}
+
 export default {
     register,
     get,
     login,
     update,
-    remove
+    remove,
+    logout
 }
