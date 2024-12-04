@@ -15,11 +15,22 @@ const createAdmin = async () => {
             nama: "test",
             username: "test",
             password: await bcrypt.hash("testpass", 10),
+            token: "test"
         }
     })
 }
 
+const getAdminId = async () => {
+    const admin = await prismaClient.admin.findFirst({
+        select: {
+            id: true
+        }
+    });
+    return admin?.id;
+}
+
 export {
     removeAdmin,
-    createAdmin
+    createAdmin,
+    getAdminId
 }

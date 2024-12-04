@@ -4,9 +4,12 @@ import dosenController from '../controller/dosen-controller.js';
 import { authMiddleware } from '../middleware/auth-middleware.js';
 import { authDosen } from '../middleware/auth-dosen.js';
 import { authMahasiswa } from '../middleware/auth-mahasiswa.js';
+import adminController from '../controller/admin-controller.js';
+import { authAdmin } from '../middleware/auth-admin.js';
 
 const mahasiswaRouter = new express.Router();
 const dosenRouter = new express.Router();
+const adminRouter = new express.Router();
 
 // Route Mahasiswa
 mahasiswaRouter.use(authMahasiswa);
@@ -22,7 +25,13 @@ dosenRouter.patch('/:dosenId', dosenController.update);
 dosenRouter.delete('/:dosenId', dosenController.remove);
 dosenRouter.delete('/logout/:dosenId', dosenController.logout);
 
+// Route Admin
+adminRouter.use(authAdmin);
+adminRouter.get('/current', adminController.get);
+adminRouter.patch('/:adminId', adminController.update);
+
 export {
     mahasiswaRouter,
-    dosenRouter
+    dosenRouter,
+    adminRouter
 };

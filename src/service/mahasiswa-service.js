@@ -88,9 +88,7 @@ const get = async (nim) => {
 const update = async (request) => {
     const mahasiswa = await validate(updateMahasiswaValidation, request);
     const totalMahasiswaInDatabase = await prismaClient.mahasiswa.findUnique({
-        where: {
-            id: mahasiswa.id
-        }
+        id: mahasiswa.id
     });
     if (!totalMahasiswaInDatabase) {
         throw new ResponseError(404, "Cannot update data");
