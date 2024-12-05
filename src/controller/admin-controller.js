@@ -51,6 +51,15 @@ const update = async (req, res, next) => {
     }
 }
 
+const remove = async (req, res, next) => {
+    try {
+        const adminId = req.params.adminId;
+        const request = req.body;
+    } catch (e) {
+        next(e);
+    }
+}
+
 export default {
     register,
     login,

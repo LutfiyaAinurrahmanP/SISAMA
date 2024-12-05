@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import { getAdminValidation, loginAdminValidation, registerAdminValidation, updateAdminValidation } from "../validation/admin-validation.js";
+import { getAdminValidation, loginAdminValidation, registerAdminValidation, removeAdminValidation, updateAdminValidation } from "../validation/admin-validation.js";
 import { validate } from "../validation/validation.js"
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
@@ -115,11 +115,35 @@ const update = async (request) => {
             nama: true
         }
     })
+};
+
+const remove = async (request) => {
+    const requestRemove = await validate(removeAdminValidation, request);
+    const admin = await prismaClient.admin.findUnique({
+        where: {
+            id: requestRemove.id
+        }
+    });
+    if(!admin){
+        throw new ResponseError(404, "Admin data is not found");
+    };
+    return prismaClient.admin.update({
+        where: {
+            id: requestRemove.id
+        },
+        data: {
+            token: null
+        },
+        select: {
+            id: true
+        }
+    })
 }
 
 export default {
     register,
     login,
     get,
-    update
+    update,
+    remove
 };

@@ -20,9 +20,12 @@ const updateAdminValidation = Joi.object({
     password: Joi.string().max(64).required()
 })
 
+const removeAdminValidation = Joi.number().positive().required();
+
 export {
     registerAdminValidation,
     loginAdminValidation,
     getAdminValidation,
-    updateAdminValidation
+    updateAdminValidation,
+    removeAdminValidation
 }
