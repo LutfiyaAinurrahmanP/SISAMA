@@ -36,6 +36,7 @@ const logoutMahasiswaValidation = Joi.object({
     // password: Joi.string().max(64).required(),
 })
 
+
 export {
     registerMahasiswaValidation,
     loginMahasiswaValidation,
