@@ -30,6 +30,7 @@ const removeMahasiswaValidation = Joi.object({
     id: Joi.number().positive().required(),
 })
 
+
 const logoutMahasiswaValidation = Joi.object({
     id: Joi.number().positive().required(),
     // nim: Joi.string().max(64).required(),
