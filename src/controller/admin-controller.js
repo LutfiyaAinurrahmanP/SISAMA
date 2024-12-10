@@ -55,14 +55,35 @@ const remove = async (req, res, next) => {
     try {
         const adminId = req.params.adminId;
         const request = req.body;
+        request.id = adminId;
+        await adminService.remove(request);
+        res.status(200).json({
+            data: "Successful deleted data"
+        });
     } catch (e) {
         next(e);
-    }
-}
+    };
+};
+
+const logout = async (req, res, next) => {
+    try {
+        const adminId = req.params.adminId;
+        const request = req.body;
+        request.id = adminId;
+        await adminService.logout(request);
+        res.status(200).json({
+            data: "Successful Logout"
+        });
+    } catch (e) {
+        next(e);
+    };
+};
 
 export default {
     register,
     login,
     get,
-    update
+    update,
+    remove,
+    logout
 }

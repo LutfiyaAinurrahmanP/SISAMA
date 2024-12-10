@@ -69,7 +69,40 @@ describe('PATCH /api/admin/:adminId', () => {
                 "username": "test",
                 "password": "update"
             });
-            logger.info(result);
+        logger.info(result);
         expect(result.status).toBe(200);
+    });
+});
+
+describe('DELETE /api/delete/:adminId', () => {
+    beforeEach(async () => {
+        await createAdmin();
+    })
+    afterEach(async () => {
+        await removeAdmin();
+    });
+    test('should can remove admin data', async () => {
+        const adminId = await getAdminId();
+        const result = await supertest(web)
+            .delete(`/api/admin/${adminId}`)
+            .set(`adminAuth`, `test`);
+        logger.info(result);
+        expect(result.status).toBe(200);
+    });
+});
+
+describe('DELETE /api/admin/logout/:adminId', () => {
+    beforeEach(async () => {
+        await createAdmin();
+    })
+    afterEach(async () => {
+        await removeAdmin();
+    });
+    test('should can logout current admin', async () => {
+        const adminId = await getAdminId();
+        const result = await supertest(web)
+            .delete(`/api/admin/logout/${adminId}`)
+            .set(`adminAuth`, `test`);
+            expect(result.status).toBe(200);
     });
 });

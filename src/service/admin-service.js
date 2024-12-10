@@ -1,6 +1,6 @@
 import { prismaClient } from "../application/database.js";
 import { ResponseError } from "../error/response-error.js";
-import { getAdminValidation, loginAdminValidation, registerAdminValidation, removeAdminValidation, updateAdminValidation } from "../validation/admin-validation.js";
+import { getAdminValidation, loginAdminValidation, logoutAdminValidation, registerAdminValidation, removeAdminValidation, updateAdminValidation } from "../validation/admin-validation.js";
 import { validate } from "../validation/validation.js"
 import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
@@ -124,12 +124,31 @@ const remove = async (request) => {
             id: requestRemove.id
         }
     });
-    if(!admin){
+    if (!admin) {
         throw new ResponseError(404, "Admin data is not found");
     };
-    return prismaClient.admin.update({
+    return prismaClient.admin.delete({
         where: {
             id: requestRemove.id
+        }
+    });
+};
+
+const logout = async (request) => {
+    const requestLogout = await validate(logoutAdminValidation, request);
+    const admin = await prismaClient.admin.findUnique({
+        where: {
+            id: requestLogout.id
+        }
+    });
+    
+    if (!admin) {
+        throw new ResponseError(404, "Admin data is not founf");
+    };
+
+    return prismaClient.admin.update({
+        where: {
+            id: requestLogout.id
         },
         data: {
             token: null
@@ -138,12 +157,13 @@ const remove = async (request) => {
             id: true
         }
     })
-}
+};
 
 export default {
     register,
     login,
     get,
     update,
-    remove
+    remove,
+    logout
 };

@@ -29,6 +29,8 @@ dosenRouter.delete('/logout/:dosenId', dosenController.logout);
 adminRouter.use(authAdmin);
 adminRouter.get('/current', adminController.get);
 adminRouter.patch('/:adminId', adminController.update);
+adminRouter.delete('/:adminId', adminController.remove);
+adminRouter.delete('/logout/:adminId', adminController.logout);
 
 export {
     mahasiswaRouter,

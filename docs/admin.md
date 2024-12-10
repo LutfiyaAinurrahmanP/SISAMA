@@ -159,7 +159,7 @@ Headers :
 
 - Authorization : Token
 
-Endpoint : DELETE /api/admin/logout
+Endpoint : DELETE /api/admin/logout/:adminId
 
 Response Body Success :
 
