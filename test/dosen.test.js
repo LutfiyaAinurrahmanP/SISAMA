@@ -41,9 +41,11 @@ describe('GET /api/dosen/current', () => {
         await removeDosen();
     });
     test('should can get dosen', async () => {
+        
         const result = await supertest(web)
             .get('/api/dosen/current')
             .set("dosenAuth", "test");
+        logger.info(result);
         expect(result.status).toBe(200);
         expect(result.body.data.nip).toBe("123");
         expect(result.body.data.nama).toBe("test");

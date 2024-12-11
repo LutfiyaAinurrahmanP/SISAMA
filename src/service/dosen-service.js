@@ -7,7 +7,7 @@ import { v4 as uuid } from "uuid";
 
 const register = async (request) => {
     const dosen = validate(registerDosenValidation, request);
-    const countDosen = await prismaClient.dosen.count({
+    const countDosen = await prismaClient.dosen.findFirst({
         where: {
             id: dosen.id
         }
@@ -30,12 +30,11 @@ const register = async (request) => {
     })
 }
 
-const get = async (nip) => {
-    nip = validate(getDosenValidation, nip);
-
+const get = async (request) => {
+    const requestGet = validate(getDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            nip: nip
+            id: requestGet.id
         },
         select: {
             id: true,
@@ -148,7 +147,7 @@ const logout = async (request) => {
         }
     });
 
-    if(!dosen){
+    if (!dosen) {
         throw new ResponseError(404, "Dosen data is not found");
     };
 

@@ -14,8 +14,8 @@ const register = async (req, res, next) => {
 
 const get = async (req, res, next) => {
     try {
-        const nip = req.dosen.nip;
-        const result = await dosenService.get(nip);
+        const request = req.body;
+        const result = await dosenService.get(request);
         res.status(200).json({
             data: result
         });

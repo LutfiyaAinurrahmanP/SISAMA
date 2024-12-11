@@ -7,6 +7,7 @@ import { authMahasiswa } from '../middleware/auth-mahasiswa.js';
 import adminController from '../controller/admin-controller.js';
 import { authAdmin } from '../middleware/auth-admin.js';
 import matkulController from '../controller/matkul-controller.js';
+import jadkulController from '../controller/jadkul-controller.js';
 
 const mahasiswaRouter = new express.Router();
 const dosenRouter = new express.Router();
@@ -35,6 +36,15 @@ adminRouter.delete('/logout/:adminId', adminController.logout);
 
 // Route Mata Kuliah by Admin
 adminRouter.post('/matkul', matkulController.register);
+adminRouter.get('/matkul/:matkulId', matkulController.get);
+adminRouter.get('/matkul/', matkulController.getMany);
+adminRouter.patch('/matkul/:matkulId', matkulController.update);
+adminRouter.delete('/matkul/:matkulId', matkulController.remove);
+
+// Route Jadwal Kuliah by admin
+adminRouter.post('/jadkul', jadkulController.register);
+
+
 
 export {
     mahasiswaRouter,

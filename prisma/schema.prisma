@@ -54,7 +54,7 @@ model MataKuliah {
   id           Int            @id @default(autoincrement())
   kode_mk      String         @unique @db.VarChar(64)
   nama_mk      String         @unique @db.VarChar(64)
-  sks          Int
+  sks          String         @unique @db.VarChar(64)
   jadwalmatkul JadwalKuliah[]
 
   @@map("mata_kuliah")
