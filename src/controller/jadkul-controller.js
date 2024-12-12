@@ -2,9 +2,7 @@ import jadkulService from "../service/jadkul-service";
 
 const register = async (req, res, next) => {
     try {
-        const dosen = req.body.dosen.id;
-        const matkul = req.body.mata_kuliah.id;
-        const request = req.body;
+        const {dosen, matkul, ...request} = req.body;
         const result = await jadkulService.register(
             { id: dosen },
             { id: matkul },
@@ -18,6 +16,6 @@ const register = async (req, res, next) => {
     }
 }
 
-export default{
+export default {
     register
 }

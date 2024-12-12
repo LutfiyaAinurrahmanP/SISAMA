@@ -10,9 +10,8 @@ const getMataKuliahValidation = Joi.object({
     id: Joi.number().positive().required()
 });
 
-const getManyMataKuliahValidation = Joi.object({
-    id: Joi.number().positive().required()
-});
+const getManyMataKuliahValidation = Joi.array().items(Joi.number().positive().required());
+
 
 const updateMataKuliahValidation = Joi.object({
     id: Joi.number().positive().required(),

@@ -34,7 +34,7 @@ const get = async (request) => {
     const requestGet = validate(getDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            id: requestGet.id
+            id: requestGet
         },
         select: {
             id: true,

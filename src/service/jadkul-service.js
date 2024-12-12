@@ -1,9 +1,9 @@
 import { validate } from "uuid"
-import { getDosenValidation } from "../validation/dosen-validation"
-import { prismaClient } from "../application/database";
-import { ResponseError } from "../error/response-error";
-import { getMataKuliahValidation } from "../validation/matkul-validation";
-import { registerJadwalKuliahValidation } from "../validation/jadkul-validation";
+import { getDosenValidation } from "../validation/dosen-validation.js"
+import { prismaClient } from "../application/database.js";
+import { ResponseError } from "../error/response-error.js";
+import { getMataKuliahValidation } from "../validation/matkul-validation.js";
+import { registerJadwalKuliahValidation } from "../validation/jadkul-validation.js";
 
 const dosenData = async (request) => {
     const requestDosen = await validate(getDosenValidation, request);
@@ -47,17 +47,21 @@ const matkulData = async (request) => {
 };
 
 const register = async (requestDosen, requestMatkul, request) => {
-    const matkul = await matkulData(requestDosen);
-    const dosen = await dosenData(requestMatkul);
+    const matkul = await matkulData(requestMatkul);
+    const dosen = await dosenData(requestDosen);
     const requestRegister = await validate(registerJadwalKuliahValidation, request);
-    const jadkul = await prismaClient.jadwalKuliah.count({
+
+    const jadkul = await prismaClient.jadwalKuliah.findFirst({
         where: {
-            id: requestRegister.id
+            dosen_id: dosen.id,
+            mata_kuliah_id: matkul.id,
+            hari: requestRegister.hari,
+            jam_mulai: requestRegister.jam_mulai,
         }
     });
 
-    if (jadkul === 1) {
-        throw new ResponseError(404, "Jadwal kuliah already exists");
+    if (jadkul) {
+        throw new ResponseError(400, "Jadwal kuliah already exists");
     };
 
     return prismaClient.jadwalKuliah.create({
@@ -70,13 +74,18 @@ const register = async (requestDosen, requestMatkul, request) => {
             ruangan: requestRegister.ruangan,
         },
         select: {
+            id: true,
             mata_kuliah_id: true,
             dosen_id: true,
             hari: true,
             jam_mulai: true,
             jam_selesai: true,
             ruangan: true
-        }
+        },
+        // include: {
+        //     jadwalmatkul: true,
+        //     jadwaldosen: true
+        // }
     });
 };
 

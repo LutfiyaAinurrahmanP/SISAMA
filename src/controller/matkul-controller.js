@@ -28,7 +28,7 @@ const get = async (req, res, next) => {
 
 const getMany = async (req, res, next) => {
     try {
-        const request = req.body;
+        const request = req.body.id;
         const result = await matkulService.getMany(request);
         res.status(200).json({
             data: result

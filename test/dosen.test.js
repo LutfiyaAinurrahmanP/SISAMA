@@ -46,6 +46,7 @@ describe('GET /api/dosen/current', () => {
             .get('/api/dosen/current')
             .set("dosenAuth", "test");
         logger.info(result);
+        console.log(result);
         expect(result.status).toBe(200);
         expect(result.body.data.nip).toBe("123");
         expect(result.body.data.nama).toBe("test");

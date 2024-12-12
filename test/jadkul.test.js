@@ -8,16 +8,16 @@ import { logger } from "../src/application/logging";
 
 describe("POST /api/admin/jadwal", () => {
     beforeEach(async () => {
-        // await createAdmin();
-        // await createMatkul();
-        // await createDosen();
+        await createAdmin();
+        await createMatkul();
+        await createDosen();
     });
 
     afterEach(async () => {
-        // await removeAdmin();
-        // await removeMatkul();
-        // await removeDosen();
-        // await removeJadwal();
+        await removeAdmin();
+        await removeMatkul();
+        await removeDosen();
+        await removeJadwal();
     });
 
     test("should can create jadwal kuliah", async () => {

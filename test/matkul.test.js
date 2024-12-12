@@ -1,7 +1,7 @@
 import supertest from "supertest";
 import { web } from "../src/application/web";
 import { logger } from "../src/application/logging";
-import { createAdmin, createMatkul, getMatkulId, removeAdmin, removeMatkul } from "./matkul-utils";
+import { createAdmin, createManyMatkul, createMatkul, getMatkulId, removeAdmin, removeMatkul } from "./matkul-utils";
 
 describe('POST /api/admin/matkul', () => {
     beforeEach(async () => {
@@ -54,7 +54,7 @@ describe('GET /api/admin/matkul/:matkulId', () => {
 describe('GET /api/admin/matkul', () => {
     beforeEach(async () => {
         await createAdmin();
-        await createMatkul();
+        await createManyMatkul();
         
     })
     afterEach(async () => {
@@ -62,15 +62,14 @@ describe('GET /api/admin/matkul', () => {
         await removeMatkul();
     });
     test('should can get many data', async () => {
-        const matkulId = await getMatkulId();
         const result = await supertest(web)
-            .get(`/api/admin/matkul/`)
+            .get(`/api/admin/matkul`)
             .set("adminAuth", "testmk");
         logger.info(result);
         expect(result.status).toBe(200);
-        expect(result.body.data.kode_mk).toBe("satu");
-        expect(result.body.data.nama_mk).toBe("satu");
-        expect(result.body.data.sks).toBe("1");
+        expect(result.body.data[0].kode_mk).toBe("satu");
+        expect(result.body.data[0].nama_mk).toBe("satu");
+        expect(result.body.data[0].sks).toBe("1");
     });
 });
 

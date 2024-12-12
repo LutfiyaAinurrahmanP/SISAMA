@@ -50,7 +50,7 @@ const getMany = async (request) => {
     const requestGetMany = await validate(getManyMataKuliahValidation, request);
     const matkul = await prismaClient.mataKuliah.findMany({
         where: {
-            id: requestGetMany.id
+            id: { in: requestGetMany }
         },
         select: {
             id: true,

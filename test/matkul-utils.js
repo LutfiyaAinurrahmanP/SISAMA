@@ -12,10 +12,13 @@ const removeAdmin = async () => {
 const removeMatkul = async () => {
     await prismaClient.mataKuliah.deleteMany({
         where: {
-            kode_mk: "satu"
+            kode_mk: {
+                in: ["satu", "dua"]
+            }
         }
-    })
-}
+    });
+};
+
 
 const createAdmin = async () => {
     await prismaClient.admin.create({
@@ -38,6 +41,23 @@ const createMatkul = async () => {
     })
 }
 
+const createManyMatkul = async () => {
+    await prismaClient.mataKuliah.createMany({
+        data: [
+            {
+                kode_mk: "satu",
+                nama_mk: "satu",
+                sks: "1"
+            },
+            {
+                kode_mk: "dua",
+                nama_mk: "dua",
+                sks: "2"
+            }
+        ]
+    })
+}
+
 const getMatkulId = async () => {
     const matkul = await prismaClient.mataKuliah.findFirst({
         select: {
@@ -51,6 +71,7 @@ export {
     removeAdmin,
     removeMatkul,
     createAdmin,
+    createManyMatkul,
     createMatkul,
     getMatkulId
 }

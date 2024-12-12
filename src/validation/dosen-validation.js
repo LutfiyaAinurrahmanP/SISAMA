@@ -13,9 +13,7 @@ const loginDosenValidation = Joi.object({
     password: Joi.string().max(64).required()
 })
 
-const getDosenValidation = Joi.object({
-    id: Joi.number().positive().required(),
-});
+const getDosenValidation = Joi.number().positive().required();
 
 const updateDosenValidation = Joi.object({
     id: Joi.number().positive().required(),
