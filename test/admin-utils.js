@@ -17,7 +17,7 @@ const createAdmin = async () => {
             password: await bcrypt.hash("testpass", 10),
             token: "test"
         }
-    })
+    });
 }
 
 const getAdminId = async () => {

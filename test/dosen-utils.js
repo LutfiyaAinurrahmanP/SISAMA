@@ -17,7 +17,7 @@ const createDosen = async () => {
 const removeDosen = async () => {
     await prismaClient.dosen.deleteMany({
         where: {
-            nama: "test"
+            nip: "123"
         }
     })
 };

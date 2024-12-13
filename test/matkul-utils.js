@@ -12,9 +12,7 @@ const removeAdmin = async () => {
 const removeMatkul = async () => {
     await prismaClient.mataKuliah.deleteMany({
         where: {
-            kode_mk: {
-                in: ["satu", "dua"]
-            }
+            kode_mk: "satu"
         }
     });
 };
