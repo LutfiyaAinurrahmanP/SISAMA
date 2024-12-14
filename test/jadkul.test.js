@@ -14,10 +14,10 @@ describe("POST /api/admin/jadwal", () => {
     });
 
     afterEach(async () => {
-        // await removeAdmin();
-        // await removeJadwal();
-        // await removeMatkul();
-        // await removeDosen();
+        await removeAdmin();
+        await removeJadwal();
+        await removeMatkul();
+        await removeDosen();
     });
 
     test("should can create jadwal kuliah", async () => {
