@@ -40,3 +40,4 @@ describe("POST /api/admin/jadwal", () => {
         expect(result.body.data.ruangan).toBe("A101");
     });
 });
+
