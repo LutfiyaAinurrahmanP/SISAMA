@@ -48,6 +48,7 @@ describe('GET /api/admin/current', () => {
         const result = await supertest(web)
             .get('/api/admin/current')
             .set('adminAuth', 'test');
+            logger.info(result);
         expect(result.status).toBe(200);
     });
 });

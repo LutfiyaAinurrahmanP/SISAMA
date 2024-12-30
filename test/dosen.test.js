@@ -92,7 +92,7 @@ describe('PATCH /api/dosen/:dosenId', () => {
             .patch(`/api/dosen/${dosenId}`)
             .set("dosenAuth", "test")
             .send({
-                "nip": "update",
+                "nip": "123",
                 "password": "update",
                 "nama": "test",
                 "email": "update@gmail.com",

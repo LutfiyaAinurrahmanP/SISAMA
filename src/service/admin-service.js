@@ -68,10 +68,10 @@ const login = async (request) => {
 };
 
 const get = async (request) => {
-    request = validate(getAdminValidation, request)
+    const requestGet = validate(getAdminValidation, request)
     const admin = await prismaClient.admin.findUnique({
         where: {
-            username: request
+            id: requestGet
         },
         select: {
             id: true,
