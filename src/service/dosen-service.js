@@ -6,21 +6,21 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
 
 const register = async (request) => {
-    const dosen = validate(registerDosenValidation, request);
-    const countDosen = await prismaClient.dosen.findFirst({
+    const registerValidate = validate(registerDosenValidation, request);
+    const dosen = await prismaClient.dosen.findFirst({
         where: {
-            id: dosen.id
+            id: registerValidate.id
         }
     });
 
-    if (countDosen === 1) {
+    if (dosen === 1) {
         throw new ResponseError(401, "Nip already exists");
     }
 
-    dosen.password = await bcrypt.hash(dosen.password, 10);
+    registerValidate.password = await bcrypt.hash(registerValidate.password, 10);
 
     return prismaClient.dosen.create({
-        data: dosen,
+        data: registerValidate,
         select: {
             nip: true,
             nama: true,
@@ -31,10 +31,10 @@ const register = async (request) => {
 }
 
 const get = async (request) => {
-    const requestGet = validate(getDosenValidation, request);
+    const getValidate = validate(getDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            id: requestGet
+            id: getValidate
         },
         select: {
             id: true,
@@ -51,10 +51,10 @@ const get = async (request) => {
 };
 
 const login = async (request) => {
-    const loginRequest = validate(loginDosenValidation, request);
+    const loginValidate = validate(loginDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            nip: loginRequest.nip
+            nip: loginValidate.nip
         },
         select: {
             nip: true,
@@ -66,7 +66,7 @@ const login = async (request) => {
         throw new ResponseError(401, "NIP or Password is wrong")
     };
 
-    const isPasswordValid = await bcrypt.compare(loginRequest.password, dosen.password);
+    const isPasswordValid = await bcrypt.compare(loginValidate.password, dosen.password);
 
     if (!isPasswordValid) {
         throw new ResponseError(401, "NIP or Password is wrong");
@@ -87,10 +87,10 @@ const login = async (request) => {
 };
 
 const update = async (request) => {
-    const updateRequest = validate(updateDosenValidation, request);
+    const updateValidate = validate(updateDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            id: updateRequest.id
+            id: updateValidate.id
         }
     });
 
@@ -100,14 +100,14 @@ const update = async (request) => {
 
     return prismaClient.dosen.update({
         where: {
-            id: updateRequest.id
+            id: updateValidate.id
         },
         data: {
-            nip: updateRequest.nip,
-            password: await bcrypt.hash(updateRequest.password, 10),
-            nama: updateRequest.nama,
-            email: updateRequest.email,
-            jabatan: updateRequest.jabatan,
+            nip: updateValidate.nip,
+            password: await bcrypt.hash(updateValidate.password, 10),
+            nama: updateValidate.nama,
+            email: updateValidate.email,
+            jabatan: updateValidate.jabatan,
         },
         select: {
             id: true,
@@ -120,10 +120,10 @@ const update = async (request) => {
 }
 
 const remove = async (request) => {
-    const removeRequest = validate(removeDosenValidation, request);
+    const removeValidate = validate(removeDosenValidation, request);
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            id: removeRequest.id
+            id: removeValidate.id
         }
     });
 
@@ -133,17 +133,17 @@ const remove = async (request) => {
 
     return prismaClient.dosen.delete({
         where: {
-            id: removeRequest.id
+            id: removeValidate.id
         }
     })
 }
 
 const logout = async (request) => {
-    const requestLogout = validate(logoutDosenValidation, request);
+    const logoutValidate = validate(logoutDosenValidation, request);
 
     const dosen = await prismaClient.dosen.findUnique({
         where: {
-            id: requestLogout.id
+            id: logoutValidate.id
         }
     });
 
@@ -153,7 +153,7 @@ const logout = async (request) => {
 
     return prismaClient.dosen.update({
         where: {
-            id: requestLogout.id
+            id: logoutValidate.id
         },
         data: {
             token: null

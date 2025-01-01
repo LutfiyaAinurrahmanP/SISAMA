@@ -6,21 +6,20 @@ import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
 
 const register = async (request) => {
-    const mahasiswa = validate(registerMahasiswaValidation, request);
-
+    const registerValidate = validate(registerMahasiswaValidation, request);
     const countMahasiswa = await prismaClient.mahasiswa.count({
         where: {
-            id: mahasiswa.id
+            id: registerValidate.id
         }
     });
     if (countMahasiswa === 1) {
         throw new ResponseError(400, "nim already exists");
     }
 
-    mahasiswa.password = await bcrypt.hash(mahasiswa.password, 10);
+    registerValidate.password = await bcrypt.hash(registerValidate.password, 10);
 
     return prismaClient.mahasiswa.create({
-        data: mahasiswa,
+        data: registerValidate,
         select: {
             id: true,
             nim: true,
@@ -33,10 +32,10 @@ const register = async (request) => {
 };
 
 const login = async (request) => {
-    const loginRequest = validate(loginMahasiswaValidation, request);
+    const loginValidate = validate(loginMahasiswaValidation, request);
     const mahasiswa = await prismaClient.mahasiswa.findUnique({
         where: {
-            nim: loginRequest.nim
+            nim: loginValidate.nim
         },
         select: {
             nim: true,
@@ -46,7 +45,7 @@ const login = async (request) => {
     if (!mahasiswa) {
         throw new ResponseError(401, "NIM or Password is wrong");
     }
-    const isPasswordValid = await bcrypt.compare(loginRequest.password, mahasiswa.password);
+    const isPasswordValid = await bcrypt.compare(loginValidate.password, mahasiswa.password);
     if (!isPasswordValid) {
         throw new ResponseError(401, "NIM or Password is wrong");
     }
@@ -64,11 +63,11 @@ const login = async (request) => {
     })
 }
 
-const get = async (nim) => {
-    nim = validate(getMahasiswaValidation, nim);
+const get = async (request) => {
+    const getValidate = validate(getMahasiswaValidation, request);
     const mahasiswa = await prismaClient.mahasiswa.findUnique({
         where: {
-            nim: nim
+            id: getValidate
         },
         select: {
             id: true,
@@ -86,27 +85,27 @@ const get = async (nim) => {
 }
 
 const update = async (request) => {
-    const mahasiswa = await validate(updateMahasiswaValidation, request);
-    const totalMahasiswaInDatabase = await prismaClient.mahasiswa.findUnique({
+    const updateValidate = await validate(updateMahasiswaValidation, request);
+    const mahasiswa = await prismaClient.mahasiswa.findUnique({
         where: {
-            id: mahasiswa.id
+            id: updateValidate.id
         }
     });
-    if (!totalMahasiswaInDatabase) {
+    if (!mahasiswa) {
         throw new ResponseError(404, "Cannot update data");
     };
 
     return prismaClient.mahasiswa.update({
         where: {
-            id: mahasiswa.id
+            id: updateValidate.id
         },
         data: {
-            nim: mahasiswa.nim,
-            password: await bcrypt.hash(mahasiswa.password, 10),
-            nama: mahasiswa.nama,
-            prodi: mahasiswa.prodi,
-            angkatan: mahasiswa.angkatan,
-            email: mahasiswa.email,
+            nim: updateValidate.nim,
+            password: await bcrypt.hash(updateValidate.password, 10),
+            nama: updateValidate.nama,
+            prodi: updateValidate.prodi,
+            angkatan: updateValidate.angkatan,
+            email: updateValidate.email,
         },
         select: {
             id: true,
@@ -120,37 +119,37 @@ const update = async (request) => {
 }
 
 const remove = async (mahasiswaId) => {
-    const mahasiswa = validate(removeMahasiswaValidation, mahasiswaId);
-    const totalMahasiswaInDatabase = await prismaClient.mahasiswa.findUnique({
+    const removeValidate = validate(removeMahasiswaValidation, mahasiswaId);
+    const mahasiswa = await prismaClient.mahasiswa.findUnique({
         where: {
-            id: mahasiswa.id
+            id: removeValidate.id
         }
     })
-    if (!totalMahasiswaInDatabase) {
+    if (!mahasiswa) {
         throw new ResponseError(404, "Mahasiswa not found");
     }
 
     return prismaClient.mahasiswa.delete({
         where: {
-            id: mahasiswa.id
+            id: removeValidate.id
         },
     })
 }
 
 const logout = async (request) => {
-    const mahasiswa = validate(logoutMahasiswaValidation, request);
-    const totalMahasiswaInDatabase = await prismaClient.mahasiswa.findUnique({
+    const logoutValidate = validate(logoutMahasiswaValidation, request);
+    const mahasiswa = await prismaClient.mahasiswa.findUnique({
         where: {
-            id: mahasiswa.id
+            id: logoutValidate.id
         }
     });
-    if (!totalMahasiswaInDatabase) {
+    if (!mahasiswa) {
         throw new ResponseError(404, "Mahasiswa not found");
     }
 
     return prismaClient.mahasiswa.update({
         where: {
-            id: mahasiswa.id
+            id: logoutValidate.id
         },
         data: {
             token: null

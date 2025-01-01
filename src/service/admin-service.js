@@ -6,11 +6,11 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from "uuid";
 
 const register = async (request) => {
-    const requestRegister = validate(registerAdminValidation, request);
+    const registerValidate = validate(registerAdminValidation, request);
 
     const admin = await prismaClient.admin.count({
         where: {
-            id: requestRegister.id
+            id: registerValidate.id
         }
     });
 
@@ -18,10 +18,10 @@ const register = async (request) => {
         throw new ResponseError(401, "Username already registered")
     };
 
-    requestRegister.password = await bcrypt.hash(requestRegister.password, 10);
+    registerValidate.password = await bcrypt.hash(registerValidate.password, 10);
 
     return prismaClient.admin.create({
-        data: requestRegister,
+        data: registerValidate,
         select: {
             username: true,
             nama: true
@@ -30,11 +30,11 @@ const register = async (request) => {
 };
 
 const login = async (request) => {
-    const requestLogin = validate(loginAdminValidation, request);
+    const loginValidate = validate(loginAdminValidation, request);
 
     const admin = await prismaClient.admin.findUnique({
         where: {
-            username: requestLogin.username
+            username: loginValidate.username
         },
         select: {
             username: true,
@@ -46,7 +46,7 @@ const login = async (request) => {
         throw new ResponseError(401, "Username or Password is wrong");
     };
 
-    const isPasswordValid = await bcrypt.compare(requestLogin.password, admin.password);
+    const isPasswordValid = await bcrypt.compare(loginValidate.password, admin.password);
 
     if (!isPasswordValid) {
         throw new ResponseError(401, "Username or Password is wrong");
@@ -56,7 +56,7 @@ const login = async (request) => {
 
     await prismaClient.admin.update({
         where: {
-            username: requestLogin.username
+            username: loginValidate.username
         },
         data: {
             token: token
@@ -68,10 +68,10 @@ const login = async (request) => {
 };
 
 const get = async (request) => {
-    const requestGet = validate(getAdminValidation, request)
+    const getValidate = validate(getAdminValidation, request)
     const admin = await prismaClient.admin.findUnique({
         where: {
-            id: requestGet
+            id: getValidate
         },
         select: {
             id: true,
@@ -88,11 +88,11 @@ const get = async (request) => {
 }
 
 const update = async (request) => {
-    const requestUpdate = await validate(updateAdminValidation, request);
+    const updateValidate = await validate(updateAdminValidation, request);
 
     const admin = await prismaClient.admin.findUnique({
         where: {
-            id: requestUpdate.id
+            id: updateValidate.id
         }
     });
 
@@ -102,12 +102,12 @@ const update = async (request) => {
 
     return prismaClient.admin.update({
         where: {
-            id: requestUpdate.id
+            id: updateValidate.id
         },
         data: {
-            username: requestUpdate.username,
-            password: await bcrypt.hash(requestUpdate.password, 10),
-            nama: requestUpdate.nama
+            username: updateValidate.username,
+            password: await bcrypt.hash(updateValidate.password, 10),
+            nama: updateValidate.nama
         },
         select: {
             id: true,
@@ -118,10 +118,10 @@ const update = async (request) => {
 };
 
 const remove = async (request) => {
-    const requestRemove = await validate(removeAdminValidation, request);
+    const removeValidate = await validate(removeAdminValidation, request);
     const admin = await prismaClient.admin.findUnique({
         where: {
-            id: requestRemove.id
+            id: removeValidate.id
         }
     });
     if (!admin) {
@@ -129,26 +129,26 @@ const remove = async (request) => {
     };
     return prismaClient.admin.delete({
         where: {
-            id: requestRemove.id
+            id: removeValidate.id
         }
     });
 };
 
 const logout = async (request) => {
-    const requestLogout = await validate(logoutAdminValidation, request);
+    const logoutValidate = await validate(logoutAdminValidation, request);
     const admin = await prismaClient.admin.findUnique({
         where: {
-            id: requestLogout.id
+            id: logoutValidate.id
         }
     });
-    
+
     if (!admin) {
         throw new ResponseError(404, "Admin data is not founf");
     };
 
     return prismaClient.admin.update({
         where: {
-            id: requestLogout.id
+            id: logoutValidate.id
         },
         data: {
             token: null

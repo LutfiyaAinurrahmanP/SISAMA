@@ -24,8 +24,8 @@ const login = async (req, res, next) => {
 
 const get = async (req, res, next) => {
     try {
-        const nim = req.mahasiswa.nim;
-        const result = await mahasiswaService.get(nim);
+        const request = req.mahasiswa.id;
+        const result = await mahasiswaService.get(request);
         res.status(200).json({
             data: result
         });
@@ -52,10 +52,10 @@ const remove = async (req, res, next) => {
     try {
         const mahasiswaId = req.params.mahasiswaId;
         const request = req.body;
-        request.id = mahasiswaId
+        request.id = mahasiswaId;
         await mahasiswaService.remove(request);
         res.status(200).json({
-            data: "Successdull deleted data"
+            data: "Successfull deleted data"
         })
     } catch (e) {
         next(e);

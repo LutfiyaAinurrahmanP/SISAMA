@@ -14,7 +14,7 @@ const loginMahasiswaValidation = Joi.object({
     password: Joi.string().max(64).required()
 })
 
-const getMahasiswaValidation = Joi.string().max(100).required();
+const getMahasiswaValidation = Joi.number().positive().required();
 
 const updateMahasiswaValidation = Joi.object({
     id: Joi.number().positive().required(),

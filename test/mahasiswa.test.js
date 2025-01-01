@@ -55,7 +55,10 @@ describe('POST /api/mahasiswa/login', () => {
                 nim: "test",
                 password: "test"
             });
+        logger.info(result);
         expect(result.status).toBe(200);
+        expect(result.body.data.token).toBeDefined;
+        expect(result.body.data.token).not.toBe("test");
     });
     test('should reject nim', async () => {
         const result = await supertest(web)
@@ -94,6 +97,12 @@ describe('GET /api/mahasiswa/current', () => {
         expect(result.body.data.prodi).toBe("test");
         expect(result.body.data.angkatan).toBe("test");
         expect(result.body.data.email).toBe("test@gmail.com");
+    });
+    test('should can get mahasiswa data', async () => {
+        const result = await supertest(web)
+            .get('/api/mahasiswa/current')
+            .set("mahasiswaAuth", "tokensalah");
+        expect(result.status).toBe(401);
     });
 });
 
@@ -140,6 +149,7 @@ describe('DELETE /api/mahasiswa/:mahasiswaId', () => {
             .delete(`/api/mahasiswa/${mahasiswaId}`)
             .set("mahasiswaAuth", "test");
         expect(result.status).toBe(200);
+        expect(result.body.data).toBe("Successfull deleted data");
     });
     test('should can remove mahasiswa data', async () => {
         const mahasiswaId = await getMahasiswaId();
@@ -163,6 +173,7 @@ describe('DELETE /api/mahasiswa/logout/:mahasiswaId', () => {
             .delete(`/api/mahasiswa/logout/${mahasiswaId}`)
             .set("mahasiswaAuth", "test");
         expect(result.status).toBe(200);
+        expect(result.body.data).toBe("Successful Logout");
     });
     test('should t logout', async () => {
         const mahasiswaId = await getMahasiswaId();
