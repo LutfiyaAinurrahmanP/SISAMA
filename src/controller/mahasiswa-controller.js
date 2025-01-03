@@ -2,7 +2,8 @@ import mahasiswaService from "../service/mahasiswa-service.js";
 
 const register = async (req, res, next) => {
     try {
-        const result = await mahasiswaService.register(req.body);
+        const request = req.body;
+        const result = await mahasiswaService.register(request);
         res.status(200).json({
             data: result
         })
@@ -13,7 +14,8 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try {
-        const result = await mahasiswaService.login(req.body);
+        const request = req.body;
+        const result = await mahasiswaService.login(request);
         res.status(200).json({
             data: result
         })

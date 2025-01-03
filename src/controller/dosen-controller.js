@@ -26,7 +26,8 @@ const get = async (req, res, next) => {
 
 const login = async (req, res, next) => {
     try {
-        const result = await dosenService.login(req.body);
+        const request = req.body;
+        const result = await dosenService.login(request);
         res.status(200).json({
             data: result
         });

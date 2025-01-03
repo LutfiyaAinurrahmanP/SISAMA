@@ -31,7 +31,6 @@ const register = async (request) => {
 
 const login = async (request) => {
     const loginValidate = validate(loginAdminValidation, request);
-
     const admin = await prismaClient.admin.findUnique({
         where: {
             username: loginValidate.username
@@ -53,16 +52,15 @@ const login = async (request) => {
     }
 
     const token = uuid().toString();
-
-    await prismaClient.admin.update({
-        where: {
-            username: loginValidate.username
-        },
+    return prismaClient.admin.update({
         data: {
             token: token
         },
+        where: {
+            username: loginValidate.username
+        },
         select: {
-            username: true
+            token: true
         }
     })
 };
