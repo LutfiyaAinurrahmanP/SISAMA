@@ -7,12 +7,12 @@ import { v4 as uuid } from "uuid";
 
 const register = async (request) => {
     const registerValidate = validate(registerMahasiswaValidation, request);
-    const mahasiswa = await prismaClient.mahasiswa.count({
+    const countMahasiswa = await prismaClient.mahasiswa.count({
         where: {
             id: registerValidate.id
         }
     });
-    if (mahasiswa === 1) {
+    if (countMahasiswa === 1) {
         throw new ResponseError(400, "nim already exists");
     }
 
