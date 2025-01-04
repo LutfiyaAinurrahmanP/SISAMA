@@ -6,9 +6,19 @@ const registerMatkulValidation = Joi.object({
     sks: Joi.string().max(64).required(),
 });
 
-const getMatkulValidation = Joi.number().positive().required();
+const getMatkulValidation = Joi.object({
+    id: Joi.number().positive().required()
+})
+
+const updateMatkulValidation = Joi.object({
+    id: Joi.number().positive().required(),
+    kode_mk: Joi.string().max(64).required(),
+    nama_mk: Joi.string().max(64).required(),
+    sks: Joi.string().max(64).required(),
+})
 
 export {
     registerMatkulValidation,
-    getMatkulValidation
+    getMatkulValidation,
+    updateMatkulValidation
 }
