@@ -36,6 +36,7 @@ adminRouter.delete('/logout/:adminId', adminController.logout);
 adminRouter.post('/matkul', matkulController.register);
 adminRouter.get('/matkul/:matkulId', matkulController.get);
 adminRouter.get('/matkul', matkulController.getMany);
+adminRouter.patch('/matkul/:matkulId', matkulController.update);
 
 
 

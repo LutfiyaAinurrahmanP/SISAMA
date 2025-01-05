@@ -1,6 +1,6 @@
 import matkulService from "../service/matkul-service";
 
-const register = async (req, res, next)=>{
+const register = async (req, res, next) => {
     try {
         const request = req.body;
         const result = await matkulService.register(request);
@@ -12,7 +12,7 @@ const register = async (req, res, next)=>{
     };
 };
 
-const get = async (req,res,next)=>{
+const get = async (req, res, next) => {
     try {
         const matkulId = req.params.matkulId;
         const request = req.body;
@@ -26,9 +26,23 @@ const get = async (req,res,next)=>{
     };
 };
 
-const getMany = async (req, res, next)=>{
+const getMany = async (req, res, next) => {
     try {
         const result = await matkulService.getMany();
+        res.status(200).json({
+            data: result
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+const update = async (req, res, next) => {
+    try {
+        const matkulId = req.params.matkulId;
+        const request = req.body;
+        request.id = matkulId;
+        const result = await matkulService.update(request);
         res.status(200).json({
             data: result
         });
@@ -40,5 +54,6 @@ const getMany = async (req, res, next)=>{
 export default {
     register,
     get,
-    getMany
+    getMany,
+    update
 };

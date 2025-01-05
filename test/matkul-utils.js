@@ -8,6 +8,14 @@ const removeMatkul = async () => {
     })
 };
 
+const removeMatkulUpdate = async () => {
+    await prismaClient.mataKuliah.deleteMany({
+        where: {
+            kode_mk: "update"
+        }
+    })
+};
+
 const getMatkulId = async () => {
     const matkul = await prismaClient.mataKuliah.findFirst({
         select: {
@@ -69,5 +77,6 @@ export {
     getMatkulId,
     createMatkul,
     createManyMatkul,
-    removeManyMatkul
+    removeManyMatkul,
+    removeMatkulUpdate
 };
