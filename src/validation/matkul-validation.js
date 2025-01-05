@@ -17,8 +17,13 @@ const updateMatkulValidation = Joi.object({
     sks: Joi.string().max(64).required(),
 })
 
+const removeMatkulValidation = Joi.object({
+    id: Joi.number().positive().required()
+});
+
 export {
     registerMatkulValidation,
     getMatkulValidation,
-    updateMatkulValidation
+    updateMatkulValidation,
+    removeMatkulValidation
 }

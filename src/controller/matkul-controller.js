@@ -49,11 +49,26 @@ const update = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
+
+const remove = async (req, res, next) => {
+    try {
+        const matkulId = req.params.matkulId;
+        const request = req.body;
+        request.id = matkulId;
+        await matkulService.remove(request);
+        res.status(200).json({
+            data: "Successful deleted data"
+        });
+    } catch (e) {
+        next(e);
+    }
+};
 
 export default {
     register,
     get,
     getMany,
-    update
+    update,
+    remove
 };

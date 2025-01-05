@@ -1,7 +1,7 @@
 import { prismaClient } from "../application/database";
 import { ResponseError } from "../error/response-error";
 import { validate } from "../validation/validation";
-import { updateMatkulValidation, getMatkulValidation, registerMatkulValidation } from "../validation/matkul-validation";
+import { updateMatkulValidation, getMatkulValidation, registerMatkulValidation, removeMatkulValidation } from "../validation/matkul-validation";
 
 const register = async (request) => {
     const registerValidate = validate(registerMatkulValidation, request);
@@ -90,11 +90,30 @@ const update = async (request)=>{
             sks: true
         }
     })
-}
+};
+
+const remove = async (request) => {
+    const removeValidate = validate(removeMatkulValidation, request);
+    const matkul = await prismaClient.mataKuliah.findUnique({
+        where: {
+            id: removeValidate.id
+        }
+    });
+    if(!matkul){
+        throw new ResponseError(404, "Mata kuliah data is not found");
+    };
+    
+    return prismaClient.mataKuliah.delete({
+        where: {
+            id: removeValidate.id
+        }
+    });
+};
 
 export default {
     register,
     get,
     getMany,
-    update
+    update,
+    remove
 }
