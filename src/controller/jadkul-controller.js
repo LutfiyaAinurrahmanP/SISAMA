@@ -1,31 +1,19 @@
-import jadkulService from "../services/jadkul-service.js";
-
-const getDropdownData = async (req, res, next) => {
-    try {
-        const matkul = await jadkulService.getAllMatkul();
-        const dosen = await jadkulService.getAllDosen();
-        res.status(200).json({
-            matkul,
-            dosen,
-        });
-    } catch (error) {
-        next(error);
-    }
-};
+import jadkulService from "../service/jadkul-service";
 
 const register = async (req, res, next) => {
     try {
-        const { matkulId, dosenId, ...request } = req.body; // Pastikan client mengirim matkulId dan dosenId
-        const result = await jadkulService.register(matkulId, dosenId, request);
-        res.status(201).json({
+        const matkul = req.mataKuliah;
+        const dosen = req.dosen;
+        const request = req.body;
+        const result = await jadkulService.register(matkul,dosen,request);
+        res.status(200).json({
             data: result
         });
-    } catch (error) {
-        next(error);
-    }
+    } catch (e) {
+        next(e);
+    };
 };
 
 export default {
-    getDropdownData,
     register
 };
