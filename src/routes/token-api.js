@@ -7,10 +7,12 @@ import adminController from '../controller/admin-controller.js';
 import { authAdmin } from '../middleware/auth-admin.js';
 import matkulController from '../controller/matkul-controller.js';
 import jadkulController from '../controller/jadkul-controller.js';
+import { authJadkul } from '../middleware/auth-jadkul.js';
 
 const mahasiswaRouter = new express.Router();
 const dosenRouter = new express.Router();
 const adminRouter = new express.Router();
+const jadkulRouter = new express.Router();
 
 // Route Mahasiswa
 mahasiswaRouter.use(authMahasiswa);
@@ -41,12 +43,14 @@ adminRouter.patch('/matkul/:matkulId', matkulController.update);
 adminRouter.delete('/matkul/:matkulId', matkulController.remove);
 
 // Route Jadkul
-adminRouter.post('/jadkul', jadkulController.register);
+jadkulRouter.use(authJadkul);
+jadkulRouter.post('/', jadkulController.register);
 
 
 
 export {
     mahasiswaRouter,
     dosenRouter,
-    adminRouter
+    adminRouter,
+    jadkulRouter
 };

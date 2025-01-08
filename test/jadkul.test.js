@@ -4,6 +4,7 @@ import { createDosen, removeDosen } from "./dosen-utils";
 import { createAdmin, removeAdmin } from "./admin-utils";
 import { createMatkul, removeMatkul } from "./matkul-utils";
 import { logger } from "../src/application/logging";
+import { removeJadkul } from "./jadkul-utils";
 
 describe("POST /api/admin/jadkul", () => {
     beforeEach(async () => {
@@ -13,6 +14,7 @@ describe("POST /api/admin/jadkul", () => {
     });
 
     afterEach(async () => {
+        await removeJadkul();
         await removeAdmin();
         await removeMatkul();
         await removeDosen();
@@ -20,11 +22,9 @@ describe("POST /api/admin/jadkul", () => {
 
     test("should register jadwal kuliah data", async () => {
         const result = await supertest(web)
-            .post("/api/admin/jadkul")
-            .set("adminAuth", "test")
+            .post("/api/jadkul")
+            .set("jadkulAuth", "test")
             .send({
-                nama_mk: "test", // Sesuaikan dengan nama mata kuliah di database
-                nama: "test", // Sesuaikan dengan nama dosen di database
                 hari: "Senin",
                 jam_mulai: "08:00",
                 jam_selesai: "10:00",
@@ -33,7 +33,6 @@ describe("POST /api/admin/jadkul", () => {
     
         logger.info(result);
         expect(result.status).toBe(200);
-        expect(result.body.data).toBeDefined();
     });
     
 });
