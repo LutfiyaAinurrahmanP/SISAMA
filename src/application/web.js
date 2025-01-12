@@ -13,4 +13,3 @@ web.use('/api/admin', adminRouter);
 web.use('/api/jadkul', jadkulRouter);
 
 web.use(errorMiddleware);
-// test
