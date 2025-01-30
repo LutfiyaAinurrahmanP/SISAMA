@@ -45,7 +45,8 @@ adminRouter.delete('/matkul/:matkulId', matkulController.remove);
 // Route Jadkul
 jadkulRouter.use(authJadkul);
 jadkulRouter.post('/', jadkulController.register);
-
+jadkulRouter.get('/:jadkulId', jadkulController.get);
+jadkulRouter.get('/', jadkulController.getMany);
 
 
 export {

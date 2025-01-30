@@ -26,13 +26,17 @@ const getMatkulId = async () => {
 };
 
 const createMatkul = async () => {
-    await prismaClient.mataKuliah.create({
+    const matkul = await prismaClient.mataKuliah.create({
         data: {
             kode_mk: "test",
             nama_mk: "test",
             sks: "2"
+        },
+        select: {
+            id: true
         }
     });
+    return matkul;
 };
 
 const createManyMatkul = async () => {

@@ -2,7 +2,7 @@ import { prismaClient } from "../src/application/database.js"
 import bcrypt from 'bcrypt';
 
 const createDosen = async () => {
-    await prismaClient.dosen.create({
+    const dosen = await prismaClient.dosen.create({
         data: {
             nip: "123",
             password: await bcrypt.hash("testpass", 10),
@@ -10,8 +10,12 @@ const createDosen = async () => {
             email: "test@gmail.com",
             jabatan: "test",
             token: "test"
+        },
+        select: {
+            id: true
         }
     });
+    return dosen;
 };
 
 const removeDosen = async () => {

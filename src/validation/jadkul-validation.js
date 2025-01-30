@@ -7,7 +7,12 @@ const registerJadkulValidation = Joi.object({
     ruangan: Joi.string().max(64).required(),
 });
 
+const getJadkulValidation = Joi.object({
+    id: Joi.number().positive().required()
+});
+
 
 export {
-    registerJadkulValidation
+    registerJadkulValidation,
+    getJadkulValidation
 }

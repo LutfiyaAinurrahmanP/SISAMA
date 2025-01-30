@@ -16,6 +16,33 @@ const register = async (req, res, next) => {
     }
 };
 
+const get = async (req, res, next) => {
+    try {
+        const jadkulId = req.params.jadkulId;
+        const request = req.body;
+        request.id = jadkulId;
+        const result = await jadkulService.get(request);
+        res.status(200).json({
+            data: result,
+        });
+    } catch (e) {
+        next(e);
+    }
+};
+
+const getMany = async (req, res, next) => {
+    try {
+        const result = await jadkulService.getMany();
+        res.status(200).json({
+            data: result
+        });
+    } catch (e) {
+        next(e);
+    }
+}
+
 export default {
     register,
+    get,
+    getMany
 };
